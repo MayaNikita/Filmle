@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+    background: linear-gradient(135deg,#444557, #30303D, #950713);
+	background-size: 150% 150%;
+    animation: background 15s ease-in-out infinite;
+}
+body {
+    color: aliceblue;
+    font-family: "Jost", sans-serif;
+}
+
+@keyframes background {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 42px;
+}
+#button-container img {
+    height: 32px;
+    margin: 10px 0;
+    margin-right: 16px;
+    float: left;
+}
+
+#button-container>a {
+    display: block;
+    margin: auto;
+    width: 300px;
+    text-decoration: none;
+    color: aliceblue;
+    font-size: 20px;
+    line-height: 52px;
+    padding: 0 10px;
+    border-radius: 8px;
+    background: none;
+    border: 1px solid aliceblue;
+    transition: .2s;
+}
+#button-container>a:hover {
+    border: 1px solid aliceblue;
+    background: rgba(240, 248, 255, 0.2);
+}
+
+h1 {
+    font-family: "Jaro", sans-serif;
+    font-size: 50px;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 42px;
+    justify-content: center;
+    margin-bottom: 42px;
+}
+
+#poster {
+    position: relative;
+    background-size: cover;
+    border-radius: 10px;
+    width: 410px;
+    height: 600px;
+    overflow: hidden;
+}
+
+#poster>img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(25px) grayscale(100%);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    max-width: 40%;
+}
+
+.number-stats {
+    display: flex;
+    gap: 42px;
+}
+
+.chiplist {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    box-shadow: inset 0 0 0 1px aliceblue;
+    background: transparent;
+    border-radius: 8px;
+    padding: 0px 10px;
+    line-height: 32px;
+    max-height: 32px;
+    margin: 0;
+
+    transition: .2s;
+}
+
+#search-container {
+display: flex;
+justify-content: center;
+margin-top: 42px;
+}
+
+#search {
+   font-family: Jost, sans-serif;
+    font-size: 20px;
+   width: 40%;
+   padding: 6px 12px;
+   /* border-radius: 8px;
+   border: none;
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0; */
+   border: none;
+   border-bottom: 1px solid aliceblue;
+   background: none;
+   outline: none;
+   color: aliceblue;
+   transition: .2s;
+}
+#search:focus {
+    background: rgba(240, 248, 255, 0.2);
+}
+#search::placeholder {
+    color: aliceblue;
+    opacity: 0.5;
+}
+
+button {
+    font-family: Jost, sans-serif;
+    font-size: 20px;
+    padding: 6px 20px;
+    border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background: none;
+    color: aliceblue;
+    cursor: pointer;
+    transition: .2s;
+    border: 1px solid transparent;
+    border-bottom: 1px solid aliceblue;
+}
+
+button:hover {
+    border: 1px solid aliceblue;
+}
+
+#guesses-left {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 42px;
+}
+
+.wrong {
+    animation: wrong .5s ease-in
+}
+
+@keyframes wrong {
+    0% {
+        transform: translateX(0px);
+    }
+    10% {
+        transform: translateX(-30px);
+    }
+    29% {
+        transform: translateX(30px);
+    }
+    30% {
+        transform: translateX(-20px);
+    }
+    40% {
+        transform: translateX(20px);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    60% {
+        transform: translateX(10px);
+    }
+    70% {
+        transform: translateX(0px);
+    }
+}
+
+.success {
+    background: linear-gradient(150deg,#b5f25b 0%, #4caf50 40%, #459748 100%);
+    box-shadow: none;
+    text-shadow: 0px 0px 2px #00000036;
+    animation: success 0.5s ease-in-out;
+}
+
+@keyframes success {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.range {
+    line-height: 20px;
+    margin-top: -4px;
+}
+
+.close-range {
+    color: #ecde1f;
+}
+
+.bounce {
+    animation: success 0.5s ease-in-out;
+}
+
+label {
+    font-size: 20px;
+}
+
+.hidden-word {
+    color: transparent;
+    text-decoration: underline;
+    text-decoration-color: aliceblue;
+    text-decoration-skip-ink: none;
+}

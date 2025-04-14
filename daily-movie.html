@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>FILMLE</h1>
+    <div id="search-container">
+        <input id="search" list="filmlist" placeholder="Guess a movie...">
+        <button id="myCheck">Submit</button>
+        <datalist id="filmlist">
+    </div>
+    <p id="guesses-left">10 guesses left</p>
+    <main>
+        <div id="poster"><img></div>
+        <div class="info">
+            <div class="number-stats">
+                <div>
+                    <label>Year of Release</label>
+                    <div class="chiplist">
+                        <div id="year" class="chip">????</div>
+                        <div class="range">
+                            <div id="year-lower-than">↓ ????</div>
+                            <div id="year-higher-than">↑ ????</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label>Runtime</label>
+                    <div class="chiplist">
+                        <div id="runtime" class="chip">????</div>
+                        <div class="range">
+                            <div id="runtime-lower-than">↓ ????</div>
+                            <div id="runtime-higher-than">↑ ????</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label>Rating (IMDb)</label>
+                    <div class="chiplist">
+                        <div id="rating" class="chip">????</div>
+                        <div class="range">
+                            <div id="rating-lower-than">↓ ????</div>
+                            <div id="rating-higher-than">↑ ????</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label>Genre</label>
+                <div id="genre" class="chiplist"></div>
+            </div>
+            <div>
+                <label>Director</label>
+                <div id="director" class="chiplist"></div>
+            </div>
+            <div>
+                <label>Main Cast</label>
+                <div id="cast" class="chiplist"></div>
+            </div>
+            <div>
+                <label>Plot</label>
+                <div id="plot"></div>
+            </div>
+    </datalist>
+</main>
+
+<script src="script.js" type="module"></script>
+</body>
+</html>
