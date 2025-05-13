@@ -46,13 +46,19 @@
     }
 }
 
-#reset-progress-button {
+.lower-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-weight: 200;
+}
+#reset-progress-button, #stats-button {
     font-weight: 200;
     font-size: 16px;
     border: none;
     padding: 0;
     margin: 0;
 }
-#reset-progress-button:hover {
+#reset-progress-button:hover, #stats-button:hover {
     text-decoration: underline;
 }

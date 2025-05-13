@@ -1,11 +1,13 @@
 // DOM Elements
 const poster_conteiner = document.getElementById("poster");
-const title = document.getElementById("title");
 const cast = document.getElementById("cast");
 const plotElement = document.getElementById("plot");
 const castElement = document.getElementById("cast");
 const genreElement = document.getElementById("genre");
 const directorElement = document.getElementById("director");
+
+const LEVEL = Number(new URLSearchParams(window.location.search).get('level'));
+const RANDOM_MODE = LEVEL ? false : true;
 
 let FILMLIST = [];
 // Fetch film-list
@@ -39,11 +41,8 @@ function fillDropdown() {
 }
 
 function chooseFilm() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const level = urlParams.get('level');
-    
-    if (level) FILM_NAME = FILMLIST[level - 1];
-    else FILM_NAME = FILMLIST[Math.floor(Math.random() * FILMLIST.length)];
+    if (RANDOM_MODE) FILM_NAME = FILMLIST[Math.floor(Math.random() * FILMLIST.length)];
+    else FILM_NAME = FILMLIST[LEVEL - 1];
 }
 
 async function init() {
@@ -101,7 +100,13 @@ async function init() {
         poster_conteiner.innerHTML = `<img id="poster_img" src="${FILM.Poster}">`;
         setGuessesLeft();
 
-        title.innerHTML = `${FILM.Title}`;
+        let completedFilms = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
+        if (!RANDOM_MODE && completedFilms.find((item) => item.name == FILM_NAME)) {
+            guesses = completedFilms.find((item) => item.name == FILM_NAME).guesses-1;
+            document.getElementById("search").value = FILM_NAME;
+            submitGuess();
+        };
+        
     } catch (error) {
         return false;
     }
@@ -118,9 +123,6 @@ async function submitGuess() {
         poster_img.style.filter = `blur(${25 - guesses * 2.5}px) grayscale(${100 - guesses * 10}%)`;
         if (FILM.Title == data.Title) {
             poster_img.style.filter = `blur(0px) grayscale(0%)`;
-            document.getElementById("answer-container").innerHTML = `<p>The movie was <b>${FILM.Title}</b>!</p>`;
-            playBounceAnimation("answer-container");
-            document.getElementById("search-container").innerHTML = `<button class="play-next" onclick="window.location.reload()">Play next</button>`;
         }
         guesses++;
 
@@ -240,9 +242,6 @@ async function submitGuess() {
         
         setGuessesLeft(FILM.Title == data.Title);
 
-        document.getElementById("search-container").classList.remove("wrong");
-        document.getElementById("search-container").offsetWidth;
-        document.getElementById("search-container").classList.add("wrong");
         document.getElementById("search").value = "";
 
         document.querySelectorAll(".x")[guesses - 1].classList.remove("bounce");
@@ -272,8 +271,19 @@ function setGuessesLeft(win = false) {
     document.getElementById("guesses-left").innerHTML = guessesLeftSting;
 
     if (win) {
-        let completedFilms = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
-        completedFilms.push({name: FILM_NAME, guesses: guesses});
-        localStorage.setItem("completedFilms", JSON.stringify(completedFilms));
+        if (!RANDOM_MODE) {
+            let completedFilms = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
+            if (!completedFilms.find((item) => item.name == FILM_NAME)) completedFilms.push({name: FILM_NAME, guesses: guesses});
+            localStorage.setItem("completedFilms", JSON.stringify(completedFilms));
+        }
+
+        document.getElementById("answer-container").innerHTML = `<p>The movie was <b>${FILM.Title}</b>!</p>`;
+        playBounceAnimation("answer-container");
+        if (RANDOM_MODE) document.getElementById("search-container").innerHTML = `<button class="play-next" onclick="window.location.reload()">Play next</button>`;
+        else document.getElementById("search-container").innerHTML = `<a href="/movie.html?level=${LEVEL+1}"><button class="play-next">Play next</button></a>`;
+    } else if (guesses > 0) {
+        document.getElementById("search-container").classList.remove("wrong");
+        document.getElementById("search-container").offsetWidth;
+        document.getElementById("search-container").classList.add("wrong");
     }
 }

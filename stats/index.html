@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#201717"/>
+    <meta name="color-scheme" content="light dark">
+    <title>Filmle</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="stats.css">
+    <link rel="icon" href="../assets/film.png">
+</head>
+<body>
+    <h1>
+        <a href="/" class="back-link"><img src="../assets/back.png"></a>
+        <a href="/">FILMLE</a>
+    </h1>
+    <h2>Your Statistics</h2>
+    <div id="stats-container">
+        <div id="stats">
+            <div class="stat">
+                <label>Film Levels Played</label>
+                <div id="films-played">0</div>
+            </div>
+            <div class="stat">
+                <label>Average Guesses per Film</label>
+                <div id="films-average-guesses">0</div>
+            </div>
+            <div class="stat">
+                <label>Average Guesses per Film</label>
+                <div id="film-graph">
+                    <div class="graph-bars"></div>
+                    <div class="graph-line"></div>
+                    <div class="graph-legend"></div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div id="stats">
+            <div class="stat">
+                <label>TV Show Levels Played</label>
+                <div id="shows-played">0</div>
+            </div>
+            <div class="stat">
+                <label>Average Guesses per Show</label>
+                <div id="shows-average-guesses">0</div>
+            </div>
+            <div class="stat">
+                <label>Average Guesses per Show</label>
+                <div id="show-graph">
+                    <div class="graph-bars"></div>
+                    <div class="graph-line"></div>
+                    <div class="graph-legend"></div>
+                </div>
+            </div>
+    </div>
+</main>
+<script src="stats.js" type="module"></script>
+</body>
+</html>
