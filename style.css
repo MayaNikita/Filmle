@@ -4,10 +4,15 @@ html {
     background: linear-gradient(135deg,#444557, #30303D, #950713);
 	background-size: 150% 150%;
     animation: background 15s ease-in-out infinite;
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
 }
 body {
+    margin: 0;
     color: aliceblue;
     font-family: "Jost", sans-serif;
+    overflow: scroll;
 }
 
 @keyframes background {
@@ -20,6 +25,15 @@ body {
 	100% {
 		background-position: 0% 50%;
 	}
+}
+
+#landing-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
 }
 
 #button-container {
@@ -50,15 +64,39 @@ body {
     border: 1px solid aliceblue;
     transition: .2s;
 }
-#button-container>a:hover {
+#button-container>a:hover, .active {
     border: 1px solid aliceblue;
     background: rgba(240, 248, 255, 0.2);
+}
+
+.divider {
+    margin: auto;
+    width: 300px;
+    height: 1px;
+    background: aliceblue;
 }
 
 h1 {
     font-family: "Jaro", sans-serif;
     font-size: 50px;
     text-align: center;
+    margin: 0;
+    color: aliceblue;
+    margin: 10px 0;
+
+}
+
+h1>a {
+    color: aliceblue;
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: 200;
+    text-align: center;
+    margin: 0 20px;
+    margin-top: 20px;
 }
 
 main {
@@ -69,45 +107,61 @@ main {
     margin-bottom: 42px;
 }
 
+#answer-container {
+    display: block;
+    text-align: center;
+    font-size: 28px;
+}
+
 #poster {
     position: relative;
     background-size: cover;
     border-radius: 10px;
     width: 410px;
-    height: 600px;
     overflow: hidden;
 }
 
 #poster>img {
     user-drag: none;
+    -moz-user-drag: none;
     -webkit-user-drag: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: blur(25px) grayscale(100%);
+    transition: .2s;
 }
 
 .info {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 42px;
+    gap: 24px;
     max-width: 40%;
+    height: 600px;
+    overflow: scroll;
 }
+
 
 .number-stats {
     display: flex;
-    gap: 42px;
+    gap: 32px;
 }
 
 .chiplist {
-    margin-top: 8px;
+    margin-top: 4px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
 .chip {
-    box-shadow: inset 0 0 0 1px aliceblue;
+    box-shadow: inset 0 0 0 1.5px aliceblue;
     background: transparent;
     border-radius: 8px;
     padding: 0px 10px;
@@ -119,9 +173,9 @@ main {
 }
 
 #search-container {
-display: flex;
-justify-content: center;
-margin-top: 42px;
+    display: flex;
+    justify-content: center;
+    margin-top: 42px;
 }
 
 #search {
@@ -165,13 +219,6 @@ button {
 
 button:hover {
     border: 1px solid aliceblue;
-}
-
-#guesses-left {
-    font-size: 18px;
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 42px;
 }
 
 .wrong {
@@ -239,6 +286,7 @@ button:hover {
 
 label {
     font-size: 20px;
+    font-weight: 300;
 }
 
 .hidden-word {
@@ -246,4 +294,151 @@ label {
     text-decoration: underline;
     text-decoration-color: aliceblue;
     text-decoration-skip-ink: none;
+}
+
+#guesses-left {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 42px;
+}
+
+.x {
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.x:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "\d7";
+    font-size: 20px; 
+    color: #E54242;
+    line-height: 16px;
+    text-align: center;
+}
+
+.check-mark {
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.check-mark:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "\2713";
+    font-size: 20px; 
+    color: #4caf50;
+    line-height: 16px;
+    text-align: center;
+}
+
+
+.dot {
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.dot:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "•";
+    font-size: 20px; 
+    color: #FFF;
+    line-height: 24px;
+    font-weight: 900;
+    text-align: center;
+}
+
+#plot {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding-top: 62px;
+    }
+    main {
+        gap: 0px;
+        margin-bottom: 100px;
+    }
+    h1 {
+        background-color: #201717;
+        margin: 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+    }
+    .info {
+        max-width: 100%;
+        height: auto;
+        margin: 20px;
+    }
+    #top-container {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #201717;
+        z-index: 100;
+    }
+    #search-container {
+        margin: 10px 20px 0 20px;
+    }
+    #search {
+        width: unset;
+        flex: 1;
+        border-radius: 0;
+    }
+    #guesses-left {
+        margin-bottom: 10px;
+    }
+    #poster {
+        margin: 20px;
+        margin-bottom: 0;
+    }
+    .number-stats {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+.help-link {
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+}
+
+.back-link {
+    position: absolute;
+    left: 20px;
+    cursor: pointer;
+}
+
+.help-link > img {
+    height: 32px;
+    margin: 15px 0;
+}
+
+.back-link > img {
+    height: 26px;
+    margin: 18px 0;
 }

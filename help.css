@@ -1,0 +1,52 @@
+#help-container {
+    margin: 20px;
+    text-align: center;
+    margin: 0 100px;
+    margin-top: 100px;
+}
+
+.poster-example {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.poster-example > .poster {
+    height: 200px;
+    border-radius: 8px;
+}
+
+.arrow {
+    height: 42px;
+    width: 42px;
+}
+
+.chiplist {
+    justify-content: center;
+}
+
+p {
+    font-size: 20px;
+    font-weight: 200;
+}
+
+@media screen and (max-width: 768px) {
+    #help-container {
+        margin: 0 20px;
+        margin-top: 20px;
+    }
+
+    .poster-example {
+        gap: 10px;
+    }
+
+    .poster-example > .poster {
+        height: 120px;
+    }
+
+    .arrow {
+        height: 32px;
+        width: 32px;
+    }
+}

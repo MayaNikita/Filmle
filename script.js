@@ -7,21 +7,44 @@ const castElement = document.getElementById("cast");
 const genreElement = document.getElementById("genre");
 const directorElement = document.getElementById("director");
 
-const FILMLIST = ["How to Train Your Dragon", "Interstellar", "A Minecraft Movie", "The Boy and the Heron", "Dune: Part One", "Barbie", "Oppenheimer", "Back to the Future", "Star Wars", "My Neighbor Totoro", "Pretty Woman", "La La Land", "Toy Story", "Home Alone", "Jurassic Park", "The Lion King", "Titanic", "Princess Mononoke", "American Psycho", "Spirited Away", "Shrek", "The Lord of the Rings: The Fellowship of the Ring", "Ice Age", "Finding Nemo", "Pirates of the Caribbean: The Curse of the Black Pearl", "Madagascar", "Howl's Moving Castle", "Ratatouille", "Iron Man", "Raiders of the Lost Ark", "Up", "Shutter Island", "Avatar", "Tangled", "The Hunger Games", "Skyfall", "The Wolf of Wallstreet", "Frozen", "Inside Out", "The Martian", "Dunkirk", "Blade Runner 2049", "Spider-Man: Into the Spider-Verse", "Joker", "Tenet", "Encanto", "All Quiet on the Western Front", "The Super Mario Bros. Movie", "Alien", "The Godfather", "Marriage Story", "The Prestige", "The Truman Show", "Beauty and the Beast", "The Dark Knight", "Zootopia", "Deadpool", "Pulp Fiction", "Fight Club", "The Silence of the Lambs", "Jaws", "Ghostbusters", "Gladiator", "The Shining", "Avengers: Endgame", "Inception", 1917, "8 Mile", "A Clockwork Orange", "Arrival", "Casino Royale", "Catch Me If You Can", "No Country for Old Men", "Drive", "Die Hard", "Good Will Hunting", "Trainspotting", "In Time", "Lucy", "The Da Vinci Code", "Whiplash", "Split", "John Wick", "Schindler's List", "Saw", "Society of the Snow", "It", "Braveheart", "Brave", "Scarface", "Blade Runner", "Memento", "Her", "Psycho", "Casablanca", "The Pianist", "2001: A Space Odyssey", "Saving Private Ryan", "Vertigo", "The Green Mile", "The Terminator", "The Shawshank Redemption", "E.T. the Extra-Terrestrial", "Breakfast at Tiffany's", "Rocky", "Dirty Dancing", "Groundhog Day", "Snatch", "Bullet Train", "Mission: Impossible", "Moana", "Glass Onion", "Don't Look Up", "Jumanji", "The Polar Express", "Ghost in the Shell", "Valerian and the City of a Thousand Planets", "A Man Called Otto", "Suicide Squad", "The Platform", "Grave of the Fireflies", "Army of Thieves", "The Ballad of Buster Scruggs", "Brother Bear", "Night at the Museum", "The Maze Runner", "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe", "The Greatest Showman", "Mary Poppins"];
+let FILMLIST = [];
+// Fetch film-list
+fetch("lists/movies.txt")
+  .then((res) => res.text())
+  .then((text) => {
+    FILMLIST = text.split(/\r?\n/);
+    chooseFilm();
+    init();
+    fillDropdown();
+   })
+  .catch((e) => console.error(e));
 
 const API_KEY = "6ff55c56";
 
 let FILM = {};
+let FILM_NAME = "";
 let guesses = 0;
 let guessedPlotArray = [];
 
-// Add film-list to dropdown
-const list = document.getElementById("filmlist");
-FILMLIST.forEach(function (item) {
-    var option = document.createElement("option");
-    option.value = item;
-    list.appendChild(option);
-});
+document.oncontextmenu = new Function("return false;");
+
+function fillDropdown() {
+    const list = document.getElementById("filmlist");
+    let sortedList = [...FILMLIST].sort();
+    sortedList.forEach(function (item) {
+        var option = document.createElement("option");
+        option.value = item;
+        list.appendChild(option);
+    });
+}
+
+function chooseFilm() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const level = urlParams.get('level');
+    
+    if (level) FILM_NAME = FILMLIST[level - 1];
+    else FILM_NAME = FILMLIST[Math.floor(Math.random() * FILMLIST.length)];
+}
 
 async function init() {
     // Trigger submit on button click
@@ -36,7 +59,7 @@ async function init() {
         if (event.keyCode === 13) submitGuess();
     });
 
-    const url = `http://www.omdbapi.com/?apikey=${API_KEY}&t=${FILMLIST[Math.floor(Math.random() * FILMLIST.length)]}&plot=full`;
+    const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${FILM_NAME}&plot=full`;
     try {
         const response = await fetch(url);
         FILM = await response.json();
@@ -76,25 +99,29 @@ async function init() {
         plotElement.innerHTML = plotString;
 
         poster_conteiner.innerHTML = `<img id="poster_img" src="${FILM.Poster}">`;
+        setGuessesLeft();
+
         title.innerHTML = `${FILM.Title}`;
     } catch (error) {
         return false;
     }
 }
 
-await init();
-
 async function submitGuess() {
-    const url = `http://www.omdbapi.com/?apikey=${API_KEY}&t=${document.getElementById("search").value}&plot=full`;
+    const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${document.getElementById("search").value}&plot=full`;
     try {
         // daten von der API laden
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log(data);
         const poster_img = document.querySelector("#poster_img");
         poster_img.style.filter = `blur(${25 - guesses * 2.5}px) grayscale(${100 - guesses * 10}%)`;
-        if (FILM.Title == data.Title) poster_img.style.filter = `blur(0px) grayscale(0%)`;
+        if (FILM.Title == data.Title) {
+            poster_img.style.filter = `blur(0px) grayscale(0%)`;
+            document.getElementById("answer-container").innerHTML = `<p>The movie was <b>${FILM.Title}</b>!</p>`;
+            playBounceAnimation("answer-container");
+            document.getElementById("search-container").innerHTML = `<button class="play-next" onclick="window.location.reload()">Play next</button>`;
+        }
         guesses++;
 
         // Check Genre-Chips
@@ -210,12 +237,18 @@ async function submitGuess() {
         });
 
         plotElement.innerHTML = plotString;
+        
+        setGuessesLeft(FILM.Title == data.Title);
 
         document.getElementById("search-container").classList.remove("wrong");
         document.getElementById("search-container").offsetWidth;
         document.getElementById("search-container").classList.add("wrong");
         document.getElementById("search").value = "";
-        document.getElementById("guesses-left").innerHTML = `${10 - guesses} guesses left`;
+
+        document.querySelectorAll(".x")[guesses - 1].classList.remove("bounce");
+        document.querySelectorAll(".x")[guesses - 1].offsetWidth;
+        document.querySelectorAll(".x")[guesses - 1].classList.add("bounce");
+
     } catch (error) {
         return false;
     }
@@ -225,4 +258,22 @@ function playBounceAnimation(elementId) {
     document.getElementById(elementId).classList.remove("bounce");
     document.getElementById(elementId).offsetWidth;
     document.getElementById(elementId).classList.add("bounce");
+}
+
+function setGuessesLeft(win = false) {
+    let guessesLeftSting = "";
+    for (let i = 0; i < guesses; i++) {
+        if (win && i == guesses-1) guessesLeftSting += `<div class="check-mark"></div>`;
+        else guessesLeftSting += `<div class="x"></div>`;
+    }
+    for (let i = 0; i < 10 - guesses; i++) {
+        guessesLeftSting += `<div class="dot"></div>`;
+    }
+    document.getElementById("guesses-left").innerHTML = guessesLeftSting;
+
+    if (win) {
+        let completetdLevels = JSON.parse(localStorage.getItem("completetdLevels")) ?? [];
+        completetdLevels.push(FILM_NAME);
+        localStorage.setItem("completetdLevels", JSON.stringify(completetdLevels));
+    }
 }

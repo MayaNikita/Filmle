@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="theme-color" content="#201717"/>
+    <meta name="color-scheme" content="light dark">
+    <title>Filmle</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/film.png">
 </head>
 <body>
-    <h1>FILMLE</h1>
-    <div id="button-container">
-        <a href="daily-movie.html"><img src="assets/film.png">Guess todays Movie</a>
-        <a href="daily-show.html"><img src="assets/television.png">Guess todays TV Show</a>
+    <div id="landing-page-container">
+        <h1>FILMLE</h1>
+        <div id="button-container">
+            <a href="movie.html"><img src="assets/film.png">Guess todays Movie</a>
+            <a href="show.html"><img src="assets/television.png">Guess todays TV Show</a>
+            <div class="divider"></div>
+            <a href="levels?type=movie"><img src="assets/film.png">Guess previous Movies</a>
+            <a href="levels?type=show"><img src="assets/television.png">Guess previous TV Shows</a>
+        </div>
     </div>
 </main>
 
-<script src="script.js" type="module"></script>
 </body>
 </html>

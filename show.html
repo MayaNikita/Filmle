@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="theme-color" content="#201717"/>
+    <meta name="color-scheme" content="light dark">
+    <title>Filmle</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="icon" href="assets/film.png">
+</head> 
 <body>
-    <h1>FILMLE</h1>
-    <div id="search-container">
-        <input id="search" list="filmlist" placeholder="Guess a movie...">
-        <button id="myCheck">Submit</button>
-        <datalist id="filmlist">
+    <h1>
+        <a href="levels/" class="back-link"><img src="assets/back.png"></a>
+        <a href="/">FILMLE</a>
+        <a href="help.html" class="help-link"><img src="assets/help.png"></a>
+    </h1>
+    <div id="top-container">
+        <div id="search-container">
+            <input id="search" list="filmlist" placeholder="Guess a movie...">
+            <button id="myCheck">Submit</button>
+            <datalist id="filmlist">
+        </div>
+        <p id="guesses-left"></p>
     </div>
-    <p id="guesses-left">10 guesses left</p>
+    <div id="answer-container"></div>
     <main>
         <div id="poster"><img></div>
         <div class="info">
@@ -29,12 +39,12 @@
                     </div>
                 </div>
                 <div>
-                    <label>Runtime</label>
+                    <label>Total Seasons</label>
                     <div class="chiplist">
-                        <div id="runtime" class="chip">????</div>
+                        <div id="seasons" class="chip">????</div>
                         <div class="range">
-                            <div id="runtime-lower-than">↓ ????</div>
-                            <div id="runtime-higher-than">↑ ????</div>
+                            <div id="seasons-lower-than">↓ ????</div>
+                            <div id="seasons-higher-than">↑ ????</div>
                         </div>
                     </div>
                 </div>
@@ -54,7 +64,7 @@
                 <div id="genre" class="chiplist"></div>
             </div>
             <div>
-                <label>Director</label>
+                <label>Writers</label>
                 <div id="director" class="chiplist"></div>
             </div>
             <div>
@@ -68,6 +78,6 @@
     </datalist>
 </main>
 
-<script src="script.js" type="module"></script>
+<script src="script-show.js" type="module"></script>
 </body>
 </html>
