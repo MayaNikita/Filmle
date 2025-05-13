@@ -4,15 +4,16 @@ const levelContainer = document.getElementById("levels-container");
 // const STARTING_DATE = new Date(2025, 2, 1)
 let FILMLIST = [];
 let SHOWLIST = [];
-const COMPLETED_LEVELS = JSON.parse(localStorage.getItem("completetdLevels")) ?? [];
+const COMPLETED_FILMS = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
+const COMPLETED_SHOWS = JSON.parse(localStorage.getItem("completedShows")) ?? [];
 
 const movieButton = document.getElementById("movie-levels")
 const showButton = document.getElementById("show-levels")
 movieButton.addEventListener("click", () => {
-    switchLevelType("movie")
+    switchLevelType("films")
 })
 showButton.addEventListener("click", () => {
-    switchLevelType("show")
+    switchLevelType("shows")
 })
 
 function addMovieLevel(level, index) {
@@ -22,7 +23,7 @@ function addMovieLevel(level, index) {
     // levelDate.setDate(levelDate.getDate() + index);
     // let dateString = levelDate.getDate() + "/" + (levelDate.getMonth()+1) + "/" + levelDate.getFullYear()
     // newChild.innerHTML = `<div class="level ${COMPLETED_LEVELS.includes(level) ? 'completed' : ''}">Level ${index+1} - ${dateString}</div>`;
-    newChild.innerHTML = `<div class="level ${COMPLETED_LEVELS.includes(level) ? 'completed' : ''}">${index+1}</div>`;
+    newChild.innerHTML = `<div class="level ${COMPLETED_FILMS.find((film) => film.name == level) ? 'completed' : ''}">${index+1}</div>`;
     // if (levelDate > NOW) newChild.classList.add("disabled");
     levelContainer.appendChild(newChild);
 }
@@ -30,12 +31,12 @@ function addMovieLevel(level, index) {
 function addShowLevel(level, index) {
     const newChild = document.createElement("a");
     newChild.href = "../show.html?level=" + (index+1);
-    newChild.innerHTML = `<div class="level ${COMPLETED_LEVELS.includes(level) ? 'completed' : ''}">${index+1}</div>`;
+    newChild.innerHTML = `<div class="level ${COMPLETED_SHOWS.find((show) => show.name == level) ? 'completed' : ''}">${index+1}</div>`;
     levelContainer.appendChild(newChild);
 }
 
 function switchLevelType(type) {
-    if (type == "movie") {
+    if (type == "films") {
         movieButton.classList.add("active")
         showButton.classList.remove("active")
         FILMLIST = [];
@@ -48,7 +49,7 @@ function switchLevelType(type) {
                 FILMLIST.forEach(addMovieLevel)
             })
             .catch((e) => console.error(e));
-    } else if (type == "show") {
+    } else if (type == "shows") {
         movieButton.classList.remove("active")
         showButton.classList.add("active")
         FILMLIST = [];
@@ -71,4 +72,9 @@ levelContainer.addEventListener("scroll", (event) => {
     else levelContainer.style = "-webkit-mask: linear-gradient(180deg,#0000,#000 10% 90%,#0000)";
   });
 
-switchLevelType("movie")
+const urlParams = new URLSearchParams(window.location.search);
+let type = urlParams.get('t');
+if (type == "films" || type == "shows") switchLevelType(type);
+else switchLevelType("films");
+
+console.log(type);

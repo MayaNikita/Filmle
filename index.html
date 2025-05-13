@@ -7,20 +7,30 @@
     <meta name="color-scheme" content="light dark">
     <title>Filmle</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
     <link rel="icon" href="assets/film.png">
 </head>
 <body>
     <div id="landing-page-container">
         <h1>FILMLE</h1>
         <div id="button-container">
-            <a href="movie.html"><img src="assets/film.png">Guess todays Movie</a>
-            <a href="show.html"><img src="assets/television.png">Guess todays TV Show</a>
+            <a href="levels/index.html?t=films"><img src="assets/film.png">Movie Levels</a>
+            <a href="levels/index.html?t=shows"><img src="assets/television.png">TV Show Levels</a>
             <div class="divider"></div>
-            <a href="levels?type=movie"><img src="assets/film.png">Guess previous Movies</a>
-            <a href="levels?type=show"><img src="assets/television.png">Guess previous TV Shows</a>
+            <a href="movie.html"><img src="assets/film.png">Guess random Movie</a>
+            <a href="show.html"><img src="assets/television.png">Guess random TV Show</a>
         </div>
+        <button id="reset-progress-button" onclick="resetProgress()">Reset Progress</button>
     </div>
 </main>
-
+<script>
+    function resetProgress() {
+        if (confirm("Are you sure you want to reset your progress?\nThis will reset your stats and the levels you've cleared.")) {
+            localStorage.removeItem('completedFilms');
+            localStorage.removeItem('completedShows');
+            alert("Your progress has been reset.");
+        }
+    }
+</script>
 </body>
 </html>

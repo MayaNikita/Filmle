@@ -271,8 +271,8 @@ function setGuessesLeft(win = false) {
     document.getElementById("guesses-left").innerHTML = guessesLeftSting;
 
     if (win) {
-        let completetdLevels = JSON.parse(localStorage.getItem("completetdLevels")) ?? [];
-        completetdLevels.push(FILM_NAME);
-        localStorage.setItem("completetdLevels", JSON.stringify(completetdLevels));
+        let completedShows = JSON.parse(localStorage.getItem("completedShows")) ?? [];
+        completedShows.push({name: FILM_NAME, guesses: guesses});
+        localStorage.setItem("completedShows", JSON.stringify(completedShows));
     }
 }

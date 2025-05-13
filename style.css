@@ -36,46 +36,6 @@ body {
     width: 100vw;
 }
 
-#button-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 42px;
-}
-#button-container img {
-    height: 32px;
-    margin: 10px 0;
-    margin-right: 16px;
-    float: left;
-}
-
-#button-container>a {
-    display: block;
-    margin: auto;
-    width: 300px;
-    text-decoration: none;
-    color: aliceblue;
-    font-size: 20px;
-    line-height: 52px;
-    padding: 0 10px;
-    border-radius: 8px;
-    background: none;
-    border: 1px solid aliceblue;
-    transition: .2s;
-}
-#button-container>a:hover, .active {
-    border: 1px solid aliceblue;
-    background: rgba(240, 248, 255, 0.2);
-}
-
-.divider {
-    margin: auto;
-    width: 300px;
-    height: 1px;
-    background: aliceblue;
-}
-
 h1 {
     font-family: "Jaro", sans-serif;
     font-size: 50px;
@@ -83,7 +43,6 @@ h1 {
     margin: 0;
     color: aliceblue;
     margin: 10px 0;
-
 }
 
 h1>a {
@@ -97,6 +56,11 @@ h2 {
     text-align: center;
     margin: 0 20px;
     margin-top: 20px;
+}
+
+#button-container>a:hover, .active {
+    border: 2x solid aliceblue;
+    background: rgba(240, 248, 255, 0.2);
 }
 
 main {
