@@ -130,9 +130,7 @@ async function submitGuess() {
         const genreArray = data.Genre.split(", ");
         genreArray.forEach(function (item) {
             if (FILM.Genre.includes(item)) {
-                genreElement.querySelectorAll(".chip")[FILM.Genre.split(", ").indexOf(item)].innerHTML = `
-                ${item}
-            `;
+                genreElement.querySelectorAll(".chip")[FILM.Genre.split(", ").indexOf(item)].innerHTML = `${item}`;
                 genreElement.querySelectorAll(".chip")[FILM.Genre.split(", ").indexOf(item)].classList.add("success");
             }
         });
@@ -141,9 +139,7 @@ async function submitGuess() {
         const directorArray = data.Director.split(", ");
         directorArray.forEach(function (item) {
             if (FILM.Director.includes(item)) {
-                directorElement.querySelectorAll(".chip")[FILM.Director.split(", ").indexOf(item)].innerHTML = `
-                ${item}
-            `;
+                directorElement.querySelectorAll(".chip")[FILM.Director.split(", ").indexOf(item)].innerHTML = `${item}`;
                 directorElement.querySelectorAll(".chip")[FILM.Director.split(", ").indexOf(item)].classList.add("success");
             }
         });

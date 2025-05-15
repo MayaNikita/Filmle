@@ -135,9 +135,7 @@ async function submitGuess() {
         const directorArray = data.Writer.split(", ");
         directorArray.forEach(function (item) {
             if (FILM.Writer.includes(item)) {
-                directorElement.querySelectorAll(".chip")[FILM.Writer.split(", ").indexOf(item)].innerHTML = `
-                ${item}
-            `;
+                directorElement.querySelectorAll(".chip")[FILM.Writer.split(", ").indexOf(item)].innerHTML = `${item}`;
                 directorElement.querySelectorAll(".chip")[FILM.Writer.split(", ").indexOf(item)].classList.add("success");
             }
         });
