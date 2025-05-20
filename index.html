@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="home.css">
     <link rel="icon" href="assets/film.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="assets/film.png">
 </head>
 <body>
     <div id="landing-page-container">
@@ -30,7 +31,9 @@
     function resetProgress() {
         if (confirm("Are you sure you want to reset your progress?\nThis will reset your stats and the levels you've cleared.")) {
             localStorage.removeItem('completedFilms');
+            localStorage.removeItem('startedFilms');
             localStorage.removeItem('completedShows');
+            localStorage.removeItem('startedShows');
             alert("Your progress has been reset.");
         }
     }

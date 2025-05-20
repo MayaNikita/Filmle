@@ -48,6 +48,7 @@ Gladiator
 Inside Out
 Brave
 Trainspotting
+Men in Black
 Deadpool & Wolverine
 Rogue One: A Star Wars Story
 The Ballad of Buster Scruggs
@@ -103,6 +104,7 @@ Titanic
 Ghost in the Shell
 The Good, the Bad and the Ugly
 A Clockwork Orange
+The Land Before Time
 Schindler's List
 Kung Fu Panda
 Drive
@@ -177,6 +179,7 @@ Guardians of the Galaxy
 Bullet Train
 The Social Network
 Brother Bear
+Peter Pan
 Marriage Story
 Saving Private Ryan
 Glass Onion

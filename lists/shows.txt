@@ -38,6 +38,7 @@ Chernobyl
 The X-Files
 Cyberpunk: Edgerunners
 Solar Opposites
+Two and a Half Men
 Stranger Things
 Vikings
 Fleabag
@@ -51,6 +52,7 @@ Severance
 Our Planet
 Mr. Robot
 The Owl House
+The Witcher
 Grey's Anatomy
 The Simpsons
 Arcane
@@ -90,6 +92,7 @@ House of the Dragon
 Dark
 Wednesday
 Outlander
+Ninjago
 Alice in Borderland
 The Fairly OddParents
 Adolescence

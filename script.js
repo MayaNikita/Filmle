@@ -98,6 +98,7 @@ async function init() {
         plotElement.innerHTML = plotString;
 
         poster_conteiner.innerHTML = `<img id="poster_img" src="${FILM.Poster}">`;
+        loadLevelProgress();
         setGuessesLeft();
 
         let completedFilms = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
@@ -119,12 +120,10 @@ async function submitGuess() {
         const response = await fetch(url);
         const data = await response.json();
 
+        guesses++;
         const poster_img = document.querySelector("#poster_img");
         poster_img.style.filter = `blur(${25 - guesses * 2.5}px) grayscale(${100 - guesses * 10}%)`;
-        if (FILM.Title == data.Title) {
-            poster_img.style.filter = `blur(0px) grayscale(0%)`;
-        }
-        guesses++;
+        if (FILM.Title == data.Title) poster_img.style.filter = `blur(0px) grayscale(0%)`;
 
         // Check Genre-Chips
         const genreArray = data.Genre.split(", ");
@@ -244,6 +243,8 @@ async function submitGuess() {
         document.querySelectorAll(".x")[guesses - 1].offsetWidth;
         document.querySelectorAll(".x")[guesses - 1].classList.add("bounce");
 
+        storeLevelProgress();
+
     } catch (error) {
         return false;
     }
@@ -271,6 +272,12 @@ function setGuessesLeft(win = false) {
             let completedFilms = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
             if (!completedFilms.find((item) => item.name == FILM_NAME)) completedFilms.push({name: FILM_NAME, guesses: guesses});
             localStorage.setItem("completedFilms", JSON.stringify(completedFilms));
+
+            let startedLevels = JSON.parse(localStorage.getItem("startedFilms")) ?? [];
+            if (startedLevels.find((item) => item.name == FILM_NAME)) {
+                startedLevels = startedLevels.filter((item) => item.name != FILM_NAME);
+                localStorage.setItem("startedFilms", JSON.stringify(startedLevels));
+            }
         }
 
         document.getElementById("answer-container").innerHTML = `<p>The movie was <b>${FILM.Title}</b>!</p>`;
@@ -281,5 +288,47 @@ function setGuessesLeft(win = false) {
         document.getElementById("search-container").classList.remove("wrong");
         document.getElementById("search-container").offsetWidth;
         document.getElementById("search-container").classList.add("wrong");
+    }
+}
+
+function storeLevelProgress() {
+    let startedLevels = JSON.parse(localStorage.getItem("startedFilms")) ?? [];
+
+    let levelProgress = {
+        name: FILM_NAME,
+        guesses: guesses,
+        data: {
+            genreElement: genreElement.innerHTML,
+            directorElement: directorElement.innerHTML,
+            castElement: castElement.innerHTML,
+            plotElement: plotElement.innerHTML,
+            yearElement: document.getElementById("year-container").innerHTML,
+            runtimeElement: document.getElementById("runtime-container").innerHTML,
+            ratingElement: document.getElementById("rating-container").innerHTML,
+        }
+    };
+
+    if (startedLevels.find((item) => item.name == FILM_NAME)) startedLevels = startedLevels.filter((item) => item.name != FILM_NAME);
+    startedLevels.push(levelProgress);
+
+    localStorage.setItem("startedFilms", JSON.stringify(startedLevels));
+}
+
+function loadLevelProgress() {
+    let startedLevels = JSON.parse(localStorage.getItem("startedFilms")) ?? [];
+    let levelProgress = startedLevels.find((item) => item.name == FILM_NAME);
+    if (levelProgress) {
+        guesses = levelProgress.guesses;
+
+        genreElement.innerHTML = levelProgress.data.genreElement;
+        directorElement.innerHTML = levelProgress.data.directorElement;
+        castElement.innerHTML = levelProgress.data.castElement;
+        plotElement.innerHTML = levelProgress.data.plotElement;
+        document.getElementById("year-container").innerHTML = levelProgress.data.yearElement;
+        document.getElementById("runtime-container").innerHTML = levelProgress.data.runtimeElement;
+        document.getElementById("rating-container").innerHTML = levelProgress.data.ratingElement;
+        
+        const poster_img = document.querySelector("#poster_img");        
+        poster_img.style.filter = `blur(${25 - guesses * 2.5}px) grayscale(${100 - guesses * 10}%)`;
     }
 }

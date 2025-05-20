@@ -1,11 +1,10 @@
 const levelContainer = document.getElementById("levels-container");
-// const NOW = new Date();
-// Date when the first level was released
-// const STARTING_DATE = new Date(2025, 2, 1)
 let FILMLIST = [];
 let SHOWLIST = [];
 const COMPLETED_FILMS = JSON.parse(localStorage.getItem("completedFilms")) ?? [];
+const STARTED_FILMS = JSON.parse(localStorage.getItem("startedFilms")) ?? [];
 const COMPLETED_SHOWS = JSON.parse(localStorage.getItem("completedShows")) ?? [];
+const STARTED_SHOWS = JSON.parse(localStorage.getItem("startedShows")) ?? [];
 
 const movieButton = document.getElementById("movie-levels")
 const showButton = document.getElementById("show-levels")
@@ -19,19 +18,20 @@ showButton.addEventListener("click", () => {
 function addMovieLevel(level, index) {
     const newChild = document.createElement("a");
     newChild.href = "../movie.html?level=" + (index+1);
-    // let levelDate = new Date(STARTING_DATE)
-    // levelDate.setDate(levelDate.getDate() + index);
-    // let dateString = levelDate.getDate() + "/" + (levelDate.getMonth()+1) + "/" + levelDate.getFullYear()
-    // newChild.innerHTML = `<div class="level ${COMPLETED_LEVELS.includes(level) ? 'completed' : ''}">Level ${index+1} - ${dateString}</div>`;
-    newChild.innerHTML = `<div class="level ${COMPLETED_FILMS.find((film) => film.name == level) ? 'completed' : ''}">${index+1}</div>`;
-    // if (levelDate > NOW) newChild.classList.add("disabled");
+    let className = "";
+    if (COMPLETED_FILMS.find((film) => film.name == level)) className = "completed";
+    else if (STARTED_FILMS.find((film) => film.name == level)) className = "started";
+    newChild.innerHTML = `<div class="level ${className}">${index+1}</div>`;
     levelContainer.appendChild(newChild);
 }
 
 function addShowLevel(level, index) {
     const newChild = document.createElement("a");
     newChild.href = "../show.html?level=" + (index+1);
-    newChild.innerHTML = `<div class="level ${COMPLETED_SHOWS.find((show) => show.name == level) ? 'completed' : ''}">${index+1}</div>`;
+    let className = "";
+    if (COMPLETED_SHOWS.find((film) => film.name == level)) className = "completed";
+    else if (STARTED_SHOWS.find((film) => film.name == level)) className = "started";
+    newChild.innerHTML = `<div class="level ${className}">${index+1}</div>`;
     levelContainer.appendChild(newChild);
 }
 
