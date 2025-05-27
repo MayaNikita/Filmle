@@ -430,3 +430,11 @@ label {
     height: 26px;
     margin: 18px 0;
 }
+
+#loading-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+}

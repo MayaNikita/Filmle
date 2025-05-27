@@ -60,9 +60,14 @@ async function init() {
 
     const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${FILM_NAME}&plot=full`;
     try {
+        document.getElementById("main-content").style = "opacity: 0;";
+        
         const response = await fetch(url);
         FILM = await response.json();
 
+        document.getElementById("loading-screen").style = "display: none;";
+        document.getElementById("main-content").style = "opacity: 1;";
+        
         // Add Genre-Chips
         const genreArray = FILM.Genre.split(", ");
         genreArray.forEach(function (item) {
