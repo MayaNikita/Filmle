@@ -1,5 +1,7 @@
+// GAME LOGIC FOR SHOW GUESSING
+
 // DOM Elements
-const poster_conteiner = document.getElementById("poster");
+const posterElement = document.getElementById("poster");
 const cast = document.getElementById("cast");
 const plotElement = document.getElementById("plot");
 const castElement = document.getElementById("cast");
@@ -7,6 +9,7 @@ const genreElement = document.getElementById("genre");
 const directorElement = document.getElementById("director");
 
 const LEVEL = Number(new URLSearchParams(window.location.search).get('level'));
+// Random mode is used when "Guess random TV Show" is selected
 const RANDOM_MODE = LEVEL ? false : true;
 
 let FILMLIST = [];
@@ -20,6 +23,7 @@ fetch("lists/shows.txt")
     fillDropdown();
    })
   .catch((e) => console.error(e));
+
 const API_KEY = "6ff55c56";
 
 let FILM = {};
@@ -27,6 +31,7 @@ let FILM_NAME = "";
 let guesses = 0;
 let guessedPlotArray = [];
 
+// Disable right click context menu (to reduce cheating)
 document.oncontextmenu = new Function("return false;");
 
 function fillDropdown() {
@@ -75,7 +80,7 @@ async function init() {
             genreElement.appendChild(newChild);
         });
 
-        // Add Genre-Chips
+        // Add Director-Chips
         const directorArray = FILM.Writer.split(", ");
         directorArray.forEach(function (item) {
             const newChild = document.createElement("div");
@@ -91,7 +96,7 @@ async function init() {
             castElement.appendChild(newChild);
         });
 
-        // Add Plot
+        // Add Plot Text
         const plotArray = FILM.Plot.split(" ");
         let plotString = "";
         plotArray.forEach(function (item) {
@@ -101,11 +106,12 @@ async function init() {
 
         plotElement.innerHTML = plotString;
 
-        poster_conteiner.innerHTML = `<img id="poster_img" src="${FILM.Poster}">`;
+        posterElement.innerHTML = `<img id="poster_img" src="${FILM.Poster}">`;
         loadLevelProgress();
         setGuessesLeft();
 
         let completedShows = JSON.parse(localStorage.getItem("completedShows")) ?? [];
+        // Automatically finish level if it was already completed
         if (!RANDOM_MODE && completedShows.find((item) => item.name == FILM_NAME)) {
             guesses = completedShows.find((item) => item.name == FILM_NAME).guesses-1;
             document.getElementById("search").value = FILM_NAME;
@@ -119,11 +125,11 @@ async function init() {
 async function submitGuess() {
     const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${document.getElementById("search").value}&plot=full`;
     try {
-        // daten von der API laden
         const response = await fetch(url);
         const data = await response.json();
 
         guesses++;
+        // Increase visibility of poster image
         const poster_img = document.querySelector("#poster_img");
         poster_img.style.filter = `blur(${25 - guesses * 2.5}px) grayscale(${100 - guesses * 10}%)`;
         if (FILM.Title == data.Title) poster_img.style.filter = `blur(0px) grayscale(0%)`;
@@ -234,13 +240,11 @@ async function submitGuess() {
             if (!guessedPlotArray.includes(item)) guessedPlotArray.push(item.toLocaleLowerCase());
         });
         let plotString = "";
-
         FILM.Plot.split(" ").forEach(function (item, i) {
             if (guessedPlotArray.includes(item.toLocaleLowerCase())) plotString += `${item}`;
             else plotString += `<span class="hidden-word">${item}</span>`;
             plotString += ` `;
         });
-
         plotElement.innerHTML = plotString;
 
         setGuessesLeft(FILM.Title == data.Title);
@@ -265,17 +269,16 @@ function playBounceAnimation(elementId) {
 }
 
 function setGuessesLeft(win = false) {
-    let guessesLeftSting = "";
+    let guessesLeftHTML = "";
     for (let i = 0; i < guesses; i++) {
-        if (win && i == guesses-1) guessesLeftSting += `<div class="check-mark"></div>`;
-        else guessesLeftSting += `<div class="x"></div>`;
+        if (win && i == guesses-1) guessesLeftHTML += `<div class="check-mark"></div>`;
+        else guessesLeftHTML += `<div class="x"></div>`;
     }
-    for (let i = 0; i < 10 - guesses; i++) {
-        guessesLeftSting += `<div class="dot"></div>`;
-    }
-    document.getElementById("guesses-left").innerHTML = guessesLeftSting;
+    for (let i = 0; i < 10 - guesses; i++) guessesLeftHTML += `<div class="dot"></div>`;
+    document.getElementById("guesses-left").innerHTML = guessesLeftHTML;
 
     if (win) {
+        // Store level stats in localStorage
         if (!RANDOM_MODE) {
             let completedShows = JSON.parse(localStorage.getItem("completedShows")) ?? [];            
             if (!completedShows.find((item) => item.name == FILM_NAME)) completedShows.push({name: FILM_NAME, guesses: guesses});
